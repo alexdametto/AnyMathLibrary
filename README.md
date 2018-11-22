@@ -1,3 +1,3 @@
 # AnyMathLibrary
 
-Java library for the evaluation of expression or some study on functions.
+Java library for the evaluation of math expression.
