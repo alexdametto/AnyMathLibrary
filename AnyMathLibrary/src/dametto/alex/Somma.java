@@ -54,18 +54,27 @@ public class Somma implements IBinary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
-       if(arg1 == null)
+    public Steps valutaPassoAPasso(String exp) throws Exception {
+        if(arg1 == null)
             this.arg1 = Exp.parseExp(this.exp1);
         if(arg2 == null)
             this.arg2 = Exp.parseExp(this.exp2);
         
-        Num ris1 = arg1.valutaPassoAPasso();
-        Num ris2 = arg2.valutaPassoAPasso();
+        Steps ris1 = arg1.valutaPassoAPasso(exp);
+        Steps ris2 = arg2.valutaPassoAPasso(exp);
         
-        System.out.println("Calcolo somma tra " + ris1.toString() + " e " + ris2.toString());
+        Num ris = new Num(ris1.getRes().toDouble() + ris2.getRes().toDouble());
         
-        return new Num(ris1.toDouble() + ris2.toDouble());
+        Step n = new Step("Calcolo somma tra " + ris1.toString() + " e " + ris2.toString(), exp.replace(this.toString(), ris.toString()));
+        
+        Steps st = new Steps();
+        st.setSteps(ris1);
+        st.setSteps(ris2);
+        
+        st.addStep(n);
+        st.setResult(ris);
+        
+        return st;
     }
     
     

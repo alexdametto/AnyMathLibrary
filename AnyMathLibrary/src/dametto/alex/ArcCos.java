@@ -5,6 +5,8 @@
  */
 package dametto.alex;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author alex
@@ -53,18 +55,25 @@ public class ArcCos implements IUnary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(arg == null)
             this.arg = Exp.parseExp(this.exp);
         
-        Num risArg = arg.valutaPassoAPasso();
-        
-        System.out.println("Calcolo arccos(" + risArg.toString() + ")");
-        
-        if(risArg.toDouble() < -1 || risArg.toDouble() > 1)
+        Steps risArg = arg.valutaPassoAPasso(exp);
+                        
+        if(risArg.getRes().toDouble() < -1 || risArg.getRes().toDouble() > 1)
             throw new IllegalArgumentException("L'argomento deve essere compreso tra -1 e 1.");
         
-        return new Num(Math.acos(risArg.toDouble()));
+        Num ris = new Num(Math.acos(risArg.getRes().toDouble()));
+        
+        Step n = new Step("Calcolo arccos(" + risArg.toString() + ")", exp.replace(this.exp, ris.toString()));
+                
+        Steps st = new Steps();
+        st.setResult(ris);
+        st.setSteps(risArg);
+        st.addStep(n);
+        
+        return st;
     }
 
     /**

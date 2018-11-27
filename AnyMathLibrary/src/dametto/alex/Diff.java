@@ -49,12 +49,22 @@ public class Diff implements IUnary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {if(arg == null)
-        this.arg = Exp.parseExp(this.exp);
+    public Steps valutaPassoAPasso(String exp) throws Exception {
+        if(arg == null)
+            this.arg = Exp.parseExp(this.exp);
         
-        Num risArg = arg.valutaPassoAPasso();
+        Steps risArg = arg.valutaPassoAPasso(exp);
         
-        return new Num(-risArg.toDouble());
+        Num ris = new Num(- risArg.getRes().toDouble());
+        
+        Step n = new Step("", exp.replace(this.exp, ris.toString()));
+                
+        Steps st = new Steps();
+        st.setResult(ris);
+        st.setSteps(risArg);
+        st.addStep(n);
+        
+        return st;
     }
 
     /**

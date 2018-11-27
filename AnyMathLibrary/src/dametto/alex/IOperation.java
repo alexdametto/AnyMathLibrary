@@ -26,7 +26,7 @@ public interface IOperation {
      * @return il valore della valutazione dell'operazione
      * @throws Exception in caso di argomento non valido
      */
-    public Num valutaPassoAPasso() throws Exception;
+    public Steps valutaPassoAPasso(String exp) throws Exception;
     
     /**
      *

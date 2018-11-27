@@ -56,21 +56,30 @@ public class Div implements IBinary{
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(arg1 == null)
             this.arg1 = Exp.parseExp(this.exp1);
         if(arg2 == null)
             this.arg2 = Exp.parseExp(this.exp2);
         
-        Num ris1 = arg1.valutaPassoAPasso();
-        Num ris2 = arg2.valutaPassoAPasso();
-        
-        System.out.println("Calcolo divisione tra " + ris1.toString() + " e " + ris2.toString());
-        
-        if(ris2.toDouble() == 0)
+        Steps ris1 = arg1.valutaPassoAPasso(exp);
+        Steps ris2 = arg2.valutaPassoAPasso(exp);
+                        
+        if(ris2.getRes().toDouble() == 0)
             throw new IllegalArgumentException("Il divisore deve essere diverso da 0.");
         
-        return new Num(ris1.toDouble() / ris2.toDouble());
+        Num ris = new Num(ris1.getRes().toDouble() / ris2.getRes().toDouble());
+        
+        Step n = new Step("Calcolo divisione tra " + ris1.toString() + " e " + ris2.toString(), exp.replace(this.toString(), ris.toString()));
+        
+        Steps st = new Steps();
+        st.setSteps(ris1);
+        st.setSteps(ris2);
+        
+        st.addStep(n);
+        st.setResult(ris);
+        
+        return st;
     }
 
     

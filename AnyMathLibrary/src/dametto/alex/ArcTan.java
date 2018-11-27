@@ -49,15 +49,22 @@ public class ArcTan implements IUnary{
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(arg == null)
             this.arg = Exp.parseExp(this.exp);
         
-        Num risArg = arg.valutaPassoAPasso();
+        Steps risArg = arg.valutaPassoAPasso(exp);
+                        
+        Num ris = new Num(Math.atan(risArg.getRes().toDouble()));
         
-        System.out.println("Calcolo arctan(" + risArg.toString() + ")");
+        Step n = new Step("Calcolo arctan(" + risArg.toString() + ")", exp.replace(this.exp, ris.toString()));
+                
+        Steps st = new Steps();
+        st.setResult(ris);
+        st.setSteps(risArg);
+        st.addStep(n);
         
-        return new Num(Math.atan(risArg.toDouble()));
+        return st;
     }
 
     /**

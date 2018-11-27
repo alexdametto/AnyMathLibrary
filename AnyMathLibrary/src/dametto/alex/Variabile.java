@@ -25,8 +25,13 @@ public class Variabile implements IUnary {
     }
 
     @Override
-    public Num valutaPassoAPasso() throws Exception {
-        System.out.println("Calcolo " + number.toString() + variabile);
-        return new Num(Double.NaN);
+    public Steps valutaPassoAPasso(String exp) throws Exception {
+        Step n = new Step("Calcolo " + number.toString() + variabile, exp);
+        
+        Steps s = new Steps();
+        s.addStep(n);
+        s.setResult(new Num(Double.NaN));
+        
+        return s;        
     }
 }

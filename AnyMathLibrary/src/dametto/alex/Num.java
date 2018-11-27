@@ -87,8 +87,11 @@ public class Num implements IUnary {
      * @return il valore del numero in double
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
-        return this.valuta();
+    public Steps valutaPassoAPasso(String exp) throws Exception {
+        Steps s = new Steps();
+        s.addStep(new Step("", exp));
+        s.setResult(new Num(this.num));
+        return s;
     }
     
     

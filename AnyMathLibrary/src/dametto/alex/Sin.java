@@ -48,15 +48,22 @@ public class Sin implements IUnary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(arg == null)
             this.arg = Exp.parseExp(this.exp);
         
-        Num risArg = arg.valutaPassoAPasso();
+        Steps risArg = arg.valutaPassoAPasso(exp);
         
-        System.out.println("Calcolo sin(" + risArg.toString() + ")");
+        Num ris = new Num(Math.sin(risArg.getRes().toDouble()));
         
-        return new Num(Math.sin(risArg.toDouble()));
+        Step n = new Step("Calcolo sin(" + risArg.toString() + ")", exp.replace(this.exp, ris.toString()));
+                
+        Steps st = new Steps();
+        st.setResult(ris);
+        st.setSteps(risArg);
+        st.addStep(n);
+        
+        return st;
     }
     
     

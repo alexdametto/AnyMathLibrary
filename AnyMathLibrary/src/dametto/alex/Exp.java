@@ -280,13 +280,20 @@ public class Exp {
      * @return il risultato dell'espressione
      * @throws Exception in caso di errori
      */
-    public Num valutaPassoAPasso() throws Exception{
+    public Steps valutaPassoAPasso() throws Exception{
         if(this.root == null)
             throw new Exception("Non hai effettuato il parsing dell'espressione.");
         
-        System.out.println("Valutazione passo a passo di " + this.root);
+        Step n = new Step("Valutazione passo a passo di " + this.root, this.expression);
         
-        return this.root.valutaPassoAPasso();
+        Steps ris = this.root.valutaPassoAPasso(this.toString());
+        
+        Steps s = new Steps();
+        s.addStep(n);
+        s.setSteps(ris);
+        s.setResult(new Num(ris.getRes().toDouble()));
+        
+        return s;
     }
     
     

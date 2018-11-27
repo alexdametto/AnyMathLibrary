@@ -65,7 +65,7 @@ public class Log implements IBinary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(base == null)
             this.base = Exp.parseExp(this.expBase);
         
@@ -73,18 +73,27 @@ public class Log implements IBinary {
             this.argomento = Exp.parseExp(this.expArg);
         
         
-        Num risBase = base.valutaPassoAPasso();
-        Num risArg = argomento.valutaPassoAPasso();
-        
-        System.out.println("Calcolo logaritmo in base " + risBase.toString() + " di " + risArg.toString());
-        
-        if(risArg.toDouble() <= 0)
+        Steps risBase = base.valutaPassoAPasso(exp);
+        Steps risArg = argomento.valutaPassoAPasso(exp);
+                
+        if(risArg.getRes().toDouble() <= 0)
             throw new IllegalArgumentException("L'argomento deve essere strettamente maggiore di 0.");
         
-        if(risBase.toDouble() <= 0 || risBase.toDouble() == 1)
+        if(risBase.getRes().toDouble() <= 0 || risBase.getRes().toDouble() == 1)
             throw new IllegalArgumentException("La base deve essere strettamente maggiore di 0 e diversa da 1.");
         
-        return new Num(Math.log(risArg.toDouble()) / Math.log(risBase.toDouble()));
+        Num ris = new Num(Math.log(risArg.getRes().toDouble()) / Math.log(risBase.getRes().toDouble()));
+        
+        Step n = new Step("Calcolo logaritmo in base " + risBase.toString() + " di " + risArg.toString(), exp.replace(this.toString(), ris.toString()));
+        
+        Steps st = new Steps();
+        st.setSteps(risBase);
+        st.setSteps(risArg);
+        st.setResult(ris);
+        
+        st.addStep(n);
+        
+        return st;
     }
 
     

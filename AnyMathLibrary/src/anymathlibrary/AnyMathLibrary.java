@@ -5,6 +5,10 @@
  */
 package anymathlibrary;
 
+import dametto.alex.Exp;
+import dametto.alex.Step;
+import dametto.alex.Steps;
+
 /**
  *
  * @author Alex
@@ -14,8 +18,15 @@ public class AnyMathLibrary {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws Exception {
+        Exp e = new Exp("2*3+4-6");
+        e.parse();
+        Steps n = e.valutaPassoAPasso();
+        
+        for(Step a : n.getSteps()) {
+            if(!a.getDescription().equals(""))
+                System.out.println(a.getExp());
+        }
     }
     
 }

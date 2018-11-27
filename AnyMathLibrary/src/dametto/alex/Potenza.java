@@ -55,18 +55,26 @@ public class Potenza implements IBinary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
         if(base == null)
             this.base = Exp.parseExp(this.expBase);
         if(esponente == null)
             this.esponente = Exp.parseExp(this.expEsp);
         
-        Num risBase = base.valutaPassoAPasso();
-        Num risEsp = esponente.valutaPassoAPasso();
+        Steps risBase = base.valutaPassoAPasso(exp);
+        Steps risEsp = esponente.valutaPassoAPasso(exp);
         
-        System.out.println("Calcolo potenza in base " + risBase.toString() + " alla " + risEsp.toString());
+        Num ris = new Num(Math.pow(risBase.getRes().toDouble(), risEsp.getRes().toDouble()));
         
-        return new Num(Math.pow(risBase.toDouble(), risEsp.toDouble()));
+        Step n = new Step("Calcolo potenza in base " + risBase.toString() + " alla " + risEsp.toString(), exp.replace(this.toString(), ris.toString()));
+        
+        Steps st = new Steps();
+        st.setSteps(risBase);
+        st.setSteps(risEsp);
+        st.addStep(n);
+        st.setResult(ris);
+        
+        return st;
     }
     
     

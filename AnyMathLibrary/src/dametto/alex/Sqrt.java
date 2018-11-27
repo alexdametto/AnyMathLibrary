@@ -64,25 +64,26 @@ public class Sqrt implements IBinary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Num valutaPassoAPasso() throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {
+        if(argomento == null)
+            this.argomento = Exp.parseExp(this.expArg);
         if(indice == null)
             this.indice = Exp.parseExp(this.expInd);
         
-        if(argomento == null)
-            this.argomento = Exp.parseExp(this.expArg);
+        Steps risBase = argomento.valutaPassoAPasso(exp);
+        Steps risEsp = indice.valutaPassoAPasso(exp);
         
-        Num risArg = argomento.valutaPassoAPasso();
-        Num risInd = indice.valutaPassoAPasso();
+        Num ris = new Num(Math.pow(risBase.getRes().toDouble(), 1/risEsp.getRes().toDouble()));
         
-        System.out.println("Calcolo la radice di " + risArg.toString() + " con indice " + risInd.toString());
+        Step n = new Step("Calcolo la radice di " + risBase.toString() + " con indice " + risEsp.toString(), exp.replace(this.toString(), ris.toString()));
         
-        if(risArg.toDouble() < 0)
-            throw new IllegalArgumentException("L'argomento deve essere maggiore di zero.");
+        Steps st = new Steps();
+        st.setSteps(risBase);
+        st.setSteps(risEsp);
+        st.addStep(n);
+        st.setResult(ris);
         
-        if(risInd.toDouble() == 0)
-            throw new IllegalArgumentException("L'indice deve essere diverso da zero.");
-        
-        return new Num(Math.pow(risArg.toDouble(), 1/risInd.toDouble()));
+        return st;
     }
     
     
