@@ -124,7 +124,9 @@ public class Exp {
         if(op == null){ // HO UN SOTTOSTRINGA DATA DA DELLE PARENTESI CON DENTRO UN ALTRA ESPRESSIONE
             if(0 != exp.length()-1){
                 String temp = exp.substring(1, exp.length()-1);
-                op = parseExp(temp);
+                            
+                op = new Parentesi(parseExp(temp), Parentesi.getParentesi(exp.charAt(0)));
+                return op;
             }
         }
         

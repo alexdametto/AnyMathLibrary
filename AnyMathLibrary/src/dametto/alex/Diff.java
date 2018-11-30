@@ -49,7 +49,7 @@ public class Diff implements IUnary {
      * @throws Exception in caso di argomento non valido
      */
     @Override
-    public Steps valutaPassoAPasso(String exp) throws Exception {
+    public Steps valutaPassoAPasso(String exp) throws Exception {        
         if(arg == null)
             this.arg = Exp.parseExp(this.exp);
         
@@ -73,6 +73,6 @@ public class Diff implements IUnary {
      */
     @Override
     public String toString() {
-        return "-(" + arg.toString() + ")";
+        return "-" + arg.toString();
     }
 }

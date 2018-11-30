@@ -19,7 +19,7 @@ public class AnyMathLibrary {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-        Exp e = new Exp("2*3+4-6");
+        Exp e = new Exp("2*3+4-[6*2+4]");
         e.parse();
         Steps n = e.valutaPassoAPasso();
         

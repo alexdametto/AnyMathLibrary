@@ -84,6 +84,10 @@ public class Somma implements IBinary {
      */
     @Override
     public String toString() {
-        return "(" + arg1.toString() + ")+(" + arg2.toString() + ")";
+        if(arg2.getClass() == Diff.class) {
+            return arg1.toString() + arg2.toString();
+        }
+        
+        return arg1.toString() + "+" + arg2.toString();
     }
 }

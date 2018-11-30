@@ -89,6 +89,6 @@ public class Div implements IBinary{
      */
     @Override
     public String toString() {
-        return "(" + arg1.toString() + ")/(" + arg2.toString() + ")";
+        return arg1.toString() + "/" + arg2.toString();
     }
 }
